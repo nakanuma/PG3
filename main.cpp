@@ -1,34 +1,44 @@
 #include <stdio.h>
-#include <type_traits>
+#include <iostream>
 
-// char型以外の引数に対応したMin関数
-template<typename T1, typename T2> 
-typename std::enable_if<!std::is_same<T1, char>::value && !std::is_same<T2, char>::value, T1>::type
-Min(T1 a, T2 b) { 
-	return (a < b) ? a : b;
+// 一般的な賃金体系の場合、働いた時間に応じて総収入を計算する関数
+uint32_t CalculateTotalEarningsGeneral(uint32_t hours) { 
+	return hours * 1072; 
 }
 
-// char型が引数に渡された場合にエラーメッセージを出力する特殊化
-template<typename T1, typename T2> 
-typename std::enable_if<std::is_same<T1, char>::value || std::is_same<T2, char>::value, void>::type 
-Min(T1 a, T2 b) { 
-	printf("数字以外は代入できません\n"); 
+// 再帰的な賃金体系の場合、働いた時間に応じて総収入を計算する関数
+uint32_t CalculateTotalEarningsRecursive(uint32_t hours) { 
+	if (hours <= 0) {
+		return 0;
+	}
+
+	uint32_t totalEarnings = 0; // 総収入
+	uint32_t currentWage = 100; // 最初の時給
+
+	for (uint32_t i = 0; i <= hours; i++) {
+		totalEarnings += currentWage; // 現在の時給を総収入に加算
+		currentWage = currentWage * 2 - 50; // 次の時給を計算
+	}
+
+	return totalEarnings;
 }
 
 int main() {
-	int intNum1 = 10, intNum2 = 20;
+	uint32_t hours = 1;
 
-	float floatNum1 = 15.0f, floatNum2 = 22.5f;
+	while (true) {
+		uint32_t generalEarnings = CalculateTotalEarningsGeneral(hours);
+		uint32_t recursiveEarnings = CalculateTotalEarningsRecursive(hours);
 
-	double doubleNum1 = 5.56, doubleNum2 = 3.45;
+		// 再帰的に計算した賃金が、一般的な賃金よりも高くなったらループを抜ける
+		if (recursiveEarnings > generalEarnings) {
+			printf("general : %d, recursive : %d\n", generalEarnings, recursiveEarnings);
+			printf("hours : %d\n", hours);
+			break;
+		}
 
-	char char1 = 'a', char2 = 'b';
-
-	printf("%d\n", Min(intNum1, intNum2));
-	printf("%f\n", Min(floatNum1, floatNum2));
-	printf("%lf\n", Min(doubleNum1, doubleNum2));
-	
-	Min(char1, char2);
+		hours++;
+	}
 
 	return 0;
 }
