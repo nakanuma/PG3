@@ -5,6 +5,12 @@
 #include <thread>
 #include <chrono>
 
+// SetTimeout関数の実装
+void SetTimeout(std::function<void()> functionRef, int delay) {
+	Sleep(delay);
+	functionRef();
+}
+
 // 1~6の値をランダムで返す関数
 uint32_t GenerateRandomNumber() {
 	// 乱数生成器の初期化
@@ -29,15 +35,14 @@ int main() {
 	uint32_t randomNumber = randomNumberFunc();
 	printf("出た数字 : %d\n", randomNumber);
 
-	// 3秒待機
-	Sleep(3000);
-
-	// 入力の検証
-	if ((randomNumber % 2 == 1 && input == '0') || (randomNumber % 2 == 0 && input == '1')) {
-		printf("正解\n");
-	} else {
-		printf("不正解\n");
-	}
+	// ラムダ式を使用して入力の検証を行う
+	SetTimeout([randomNumber, input]() {
+		 if ((randomNumber % 2 == 1 && input == '0') || (randomNumber % 2 == 0 && input == '1')) {
+			printf("正解\n");
+		} else {
+			printf("不正解\n");
+		}
+	}, 3000); // 3秒待機してから検証を実行
 
 	return 0;
 }
