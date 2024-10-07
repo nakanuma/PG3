@@ -22,15 +22,12 @@ int main() {
 	printf("半(奇数)なら0、丁(偶数)なら1を入力 : ");
 	scanf_s("%c", &input);
 
-	// 3秒待機
-	Sleep(3000);
-
 	// 数字を生成
 	uint32_t randomNumber = randomNumberFunc();
 	printf("出た数字 : %d\n", randomNumber);
 
-	// 2秒待機
-	Sleep(2000);
+	// 3秒待機
+	Sleep(3000);
 
 	// 入力の検証
 	if ((randomNumber % 2 == 1 && input == '0') || (randomNumber % 2 == 0 && input == '1')) {
