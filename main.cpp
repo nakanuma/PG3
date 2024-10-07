@@ -1,6 +1,9 @@
 #include <Windows.h>
-#include <random>
 #include <stdio.h>
+#include <random>
+#include <functional>
+#include <thread>
+#include <chrono>
 
 // 1~6‚Ì’l‚ğƒ‰ƒ“ƒ_ƒ€‚Å•Ô‚·ŠÖ”
 uint32_t GenerateRandomNumber() {
