@@ -4,45 +4,47 @@
 #include <functional>
 #include <thread>
 #include <chrono>
+#include <cmath>
+#include <iostream>
 
-// SetTimeout関数の実装
-void SetTimeout(std::function<void()> functionRef, int delay) {
-	Sleep(delay);
-	functionRef();
-}
-
-// 1~6の値をランダムで返す関数
-uint32_t GenerateRandomNumber() {
-	// 乱数生成器の初期化
-	std::random_device rd;
-	std::mt19937 rng(rd());
-
-	std::uniform_int_distribution<uint32_t> distNumber(1, 6);
-
-	return distNumber(rng);
-}
+#include "Enemy.h"
 
 int main() {
-	// 関数ポインタの定義
-	uint32_t (*randomNumberFunc)() = GenerateRandomNumber;
+	// 敵のインスタンスを作成
+	std::unique_ptr<Enemy> enemy_;
+	enemy_ = std::make_unique<Enemy>();
 
-	// プレイヤーの入力を受け取る
-	char input;
-	printf("半(奇数)なら0、丁(偶数)なら1を入力 : ");
-	scanf_s("%c", &input);
+	// 前回フェーズの保存
+	Enemy::Phase previousPhase = static_cast<Enemy::Phase>(-1);
 
-	// 数字を生成
-	uint32_t randomNumber = randomNumberFunc();
-	printf("出た数字 : %d\n", randomNumber);
+	// ゲームループ
+	while (true) {
+		enemy_->Update();
 
-	// ラムダ式を使用して入力の検証を行う
-	SetTimeout([randomNumber, input]() {
-		 if ((randomNumber % 2 == 1 && input == '0') || (randomNumber % 2 == 0 && input == '1')) {
-			printf("正解\n");
-		} else {
-			printf("不正解\n");
+		// 現在のフェーズを取得
+		Enemy::Phase currentPhase = enemy_->GetCurrentPhase();
+
+		// フェーズ変更が行われた際のみフェーズを表示
+		if (currentPhase != previousPhase) {
+			std::cout << "Current Phase:" << enemy_->GetPhaseName() << std::endl;
+			previousPhase = currentPhase;
 		}
-	}, 3000); // 3秒待機してから検証を実行
+
+		// Approachフェーズのときに座標を表示
+		if (currentPhase == Enemy::APPROACH) {
+			const Vector3& pos = enemy_->GetPosition();
+			std::cout << "position.z:" << pos.z << std::endl;
+		}
+
+		// Fireフェーズのときに残弾を表示
+		if (currentPhase == Enemy::FIRE) {
+			const int32_t& leftBullet = enemy_->GetLeftBullet();
+			std::cout << "leftBullet:" << leftBullet << std::endl;
+		}
+
+		// 確認しやすいように長めに遅延
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+	}
 
 	return 0;
 }
