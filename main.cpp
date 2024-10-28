@@ -13,7 +13,6 @@
 #include "RectAngle.h"
 
 int main() {
-	// }Œ`‚ÌƒŠƒXƒg‚ğì¬
 	std::vector<std::unique_ptr<IShape>> shapes;
 	shapes.push_back(std::make_unique<Circle>(5.0f));
 	shapes.push_back(std::make_unique<RectAngle>(4.0f, 6.0f));
