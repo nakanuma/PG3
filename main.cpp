@@ -8,21 +8,18 @@
 #include <iostream>
 #include <vector>
 
-#include "Instrument.h"
-#include "Guitar.h"
-#include "Piano.h"
-#include "Drums.h"
+#include "IShape.h"
+#include "Circle.h"
+#include "RectAngle.h"
 
 int main() {
-	// 楽器のリストを作成
-	std::vector<std::unique_ptr<Instrument>> instruments;
-	instruments.push_back(std::make_unique<Guitar>());
-	instruments.push_back(std::make_unique<Piano>());
-	instruments.push_back(std::make_unique<Drums>());
+	// 図形のリストを作成
+	std::vector<std::unique_ptr<IShape>> shapes;
+	shapes.push_back(std::make_unique<Circle>(5.0f));
+	shapes.push_back(std::make_unique<RectAngle>(4.0f, 6.0f));
 
-	// 各楽器の音を出力
-	for (const auto& instrument : instruments) {
-		instrument->Play();
+	for (const auto& shape : shapes) {
+		shape->Draw();
 	}
 
 	return 0;
