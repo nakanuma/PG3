@@ -127,11 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Compare.cpp" />
+    <ClCompile Include="Drums.cpp" />
+    <ClCompile Include="Guitar.cpp" />
+    <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Piano.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Compare.h" />
+    <ClInclude Include="Drums.h" />
+    <ClInclude Include="Guitar.h" />
+    <ClInclude Include="Instrument.h" />
+    <ClInclude Include="Piano.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
