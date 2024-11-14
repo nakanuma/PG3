@@ -7,6 +7,10 @@ GameManager::GameManager() {
 	sceneArr_[CLEAR] = std::make_unique<ClearScene>();
 
 	currentSceneNo_ = TITLE;
+	prevSceneNo_ = -1;
+
+	input_ = Input::GetInstance();
+	input_->Initialize();
 }
 
 GameManager::~GameManager() {}
@@ -16,10 +20,6 @@ void GameManager::Run() {
 
 		Novice::BeginFrame();
 
-		memcpy(preKeys, keys, 256);
-		Novice::GetHitKeyStateAll(keys);
-
-		prevSceneNo_ = currentSceneNo_;
 		currentSceneNo_ = sceneArr_[currentSceneNo_]->GetScene();
 
 		if (prevSceneNo_ != currentSceneNo_) {
@@ -30,9 +30,11 @@ void GameManager::Run() {
 
 		sceneArr_[currentSceneNo_]->Draw();
 
+		prevSceneNo_ = currentSceneNo_;
+
 		Novice::EndFrame();
 
-		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
+		if (input_->TriggerKey(DIK_ESCAPE)) {
 			break;
 		}
 	}

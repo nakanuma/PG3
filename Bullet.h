@@ -1,12 +1,13 @@
 #pragma once
-#include "Vector2.h"
+#include "Novice.h"
 #include "stdint.h"
+#include "Vector2.h"
 
-class Enemy {
+class Bullet {
 public:
-	void Init();
+	void Init(const Vector2& position);
 	void Update();
-	void Draw();
+	void Draw(uint32_t textureHandle);
 
 	void OnCollision();
 	bool IsDead() { return isDead_; }
@@ -16,8 +17,8 @@ public:
 
 private:
 	Vector2 position_;
-	const float kRadius_ = 32.0f;
-	bool isDead_ = false;
+	Vector2 velocity_;
+	const float kRadius_ = 16.0f;
 
-	uint32_t textureEnemy_;
+	bool isDead_ = false;
 };

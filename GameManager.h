@@ -5,6 +5,8 @@
 #include "TitleScene.h"
 #include "ClearScene.h"
 
+#include "Input.h"
+
 class GameManager {
 private:
 	std::unique_ptr<IScene> sceneArr_[3];
@@ -12,8 +14,7 @@ private:
 	int currentSceneNo_;
 	int prevSceneNo_;
 
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	Input* input_ = nullptr;
 
 public:
 	GameManager();
