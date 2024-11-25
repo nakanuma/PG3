@@ -3,7 +3,7 @@
 
 void Player::Init() {
 	texturePlayer_ = Novice::LoadTexture("./Resources/Images/player.png");
-	position_ = {640.0f, 480.0f};
+	position_ = {640.0f, 360.0f};
 
 	textureBullet_ = Novice::LoadTexture("./Resources/Images/bullet.png");
 }
@@ -28,4 +28,12 @@ void Player::Draw() {
 	uint32_t centerPosY = static_cast<int>(position_.y) - static_cast<int>(kRadius_);
 
 	Novice::DrawSprite(centerPosX, centerPosY, texturePlayer_, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
+}
+
+void Player::MoveRight() { 
+	this->position_.x += this->kSpeed_; 
+}
+
+void Player::MoveLeft() { 
+	this->position_.x -= this->kSpeed_; 
 }

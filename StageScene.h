@@ -5,17 +5,17 @@
 #include "Player.h"
 #include <memory>
 
+#include "InputHandler.h"
+
 class StageScene : public IScene {
 public:
 	void Init() override;
 	void Update() override;
 	void Draw() override;
 
-	void CheckCollision();
-
 private:
-	uint32_t textureStage_;
+	InputHandler* inputHander_ = nullptr;
+	ICommand* iCommand_ = nullptr;
 
-	std::unique_ptr<Enemy> enemy_;
 	std::unique_ptr<Player> player_;
 };
